@@ -21,10 +21,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MaterialModule } from './material/material.module';
 import { AccountPersonalInfoComponent } from './pages/account/account-page/shared-components/account-personal-info/account-personal-info.component';
 import { AccountContactsComponent } from './pages/account/account-page/shared-components/account-contacts/account-contacts.component';
-import { AccountHobbiesComponent } from './pages/account/account-page/shared-components/account-hobbies/account-hobbies.component';
 import { ConversationsPageComponent } from './pages/conversations-page/conversations-page.component';
 import { FormsModule } from '@angular/forms';
-import { MapModule } from './pages/map/map.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -40,6 +38,17 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
+import { AccommodationPageComponent } from './pages/accommodation-page/accommodation-page.component';
+import { InterestedPeopleDialogComponent } from './dialogs/interested-people-dialog/interested-people-dialog.component';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { accessToken } from '../assets/tokens/maps';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { AccommodationMapComponent } from './pages/accommodation-page/accommodation-map/accommodation-map.component';
+import { MapModule } from './pages/accommodation-page/map.module';
+import { AccountPreferencesComponent } from './pages/account/account-page/shared-components/account-preferences/account-preferences.component';
+import { MySavedAccommodationsComponent } from './pages/account/account-page/shared-components/saved-accommodations/my-saved-accommodations/my-saved-accommodations.component';
+import { SuccessDialogComponent } from './pages/account/dialogs/success-dialog/success-dialog.component';
+import { ContactLandLordComponent } from './pages/accommodation-management-page/dialog-components/contact-land-lord/contact-land-lord.component';
 
 @NgModule({
   declarations: [
@@ -50,18 +59,23 @@ import { MatDividerModule } from '@angular/material/divider';
     AccountPageComponent,
     AccountPersonalInfoComponent,
     AccountContactsComponent,
-    AccountHobbiesComponent,
     ConversationsPageComponent,
     AccommodationManagementPageComponent,
     AccommodationCreationDialogComponent,
     AddressAutocompleteComponent,
+    AccommodationPageComponent,
+    InterestedPeopleDialogComponent,
+    AccommodationMapComponent,
+    AccountPreferencesComponent,
+    MySavedAccommodationsComponent,
+    SuccessDialogComponent,
+    ContactLandLordComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SharedModule,
     HammerModule,
-    MapModule,
     MaterialModule,
     MatFormFieldModule,
     MatSnackBarModule,
@@ -78,12 +92,17 @@ import { MatDividerModule } from '@angular/material/divider';
     MatOptionModule,
     MatGridListModule,
     MatDividerModule,
+    MapModule,
     AuthModule.forRoot({
       domain: 'dev-8cn4ee7fnjylxcsz.us.auth0.com',
       clientId: 'RLU5dSYynQfFsVWfKtnoBmgpjqug8mEw',
       authorizationParams: {
         redirect_uri: window.location.origin,
       },
+    }),
+    MatSidenavModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken: accessToken,
     }),
     HttpClientModule,
   ],
