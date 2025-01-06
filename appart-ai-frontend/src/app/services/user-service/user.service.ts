@@ -1,9 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppUser, UserInfo } from '../../intefaces/user.interface';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, of, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AuthenticationService } from '../auth/authentication.service';
+import { UserPreferences } from '../../intefaces/user-preferences.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -40,10 +41,35 @@ export class UserService {
   }
 
 
-
-  private getAuthHeaders(token: string): HttpHeaders {
+  public getAuthHeaders(token: string): HttpHeaders {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
+  public createUserPreferences(preferences: UserPreferences, userId: string, token: string): Observable<UserPreferences> {
+    const url = `${this.baseUrl}/user-preferences/create/${userId}`;
+    const headers = this.getAuthHeaders(token);
+    return this.http.post<UserPreferences>(url, preferences, { headers });
+  }
 
+  public updateUserPreferences(userId: string, preferences: UserPreferences, token: string): Observable<UserPreferences> {
+    const url = `${this.baseUrl}/user-preferences/update/${userId}`;
+    const headers = this.getAuthHeaders(token);
+    return this.http.put<UserPreferences>(url, preferences, { headers });
+  }
+
+
+  public getUserPreferences(userId: string, token: string): Observable<UserPreferences | null> {
+    const url = `${this.baseUrl}/user-preferences/${userId}`;
+    const headers = this.getAuthHeaders(token);
+    return this.http.get<UserPreferences>(url, { headers }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          console.error('User preferences not found:', error.message);
+          return of(null);
+        }
+        return throwError(() => error);
+      })
+    );
+  }
+  
 }
