@@ -5,10 +5,19 @@
       *ngFor="let image of images; let i = index"
       [ngClass]="{
         active: i === activeImageIndex,
-        prev: images.length > 1 && i === (activeImageIndex - 1 + this.images.length) % this.images.length,
-        next: images.length > 1 && i === (activeImageIndex + 1) % this.images.length,
-        hideleft: images.length > 1 && i === (activeImageIndex - 2 + this.images.length) % this.images.length,
-        hideright: images.length > 1 && i === (activeImageIndex + 2) % this.images.length
+        prev:
+          images.length > 1 &&
+          i ===
+            (activeImageIndex - 1 + this.images.length) % this.images.length,
+        next:
+          images.length > 1 &&
+          i === (activeImageIndex + 1) % this.images.length,
+        hideleft:
+          images.length > 1 &&
+          i ===
+            (activeImageIndex - 2 + this.images.length) % this.images.length,
+        hideright:
+          images.length > 1 && i === (activeImageIndex + 2) % this.images.length
       }"
       (click)="stopAutoSwitch()"
     >
